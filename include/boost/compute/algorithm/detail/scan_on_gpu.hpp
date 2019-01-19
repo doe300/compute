@@ -176,12 +176,12 @@ inline size_t pick_scan_block_size(InputIterator first, InputIterator last)
     else if(count <= 1)   { return 1; }
     else if(count <= 2)   { return 2; }
     else if(count <= 4)   { return 4; }
-    else if(count <= 8)   { return 8; }
+    /* else if(count <= 8)   { return 8; }
     else if(count <= 16)  { return 16; }
     else if(count <= 32)  { return 32; }
     else if(count <= 64)  { return 64; }
-    else if(count <= 128) { return 128; }
-    else                  { return 256; }
+    else if(count <= 128) { return 128; } */
+    else                  { return 8; }
 }
 
 template<class InputIterator, class OutputIterator, class T, class BinaryOperator>
@@ -206,7 +206,10 @@ inline OutputIterator scan_impl(InputIterator first,
     const context &context = queue.get_context();
     const size_t count = detail::iterator_range_size(first, last);
 
-    size_t block_size = pick_scan_block_size(first, last);
+    size_t block_size = std::min(
+        pick_scan_block_size(first, last),
+	    boost::compute::system::default_device().max_work_group_size()
+	);
     size_t block_count = count / block_size;
 
     if(block_count * block_size < count){

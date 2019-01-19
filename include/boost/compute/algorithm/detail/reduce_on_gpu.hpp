@@ -218,7 +218,7 @@ inline void reduce_on_gpu(InputIterator first,
         detail::parameter_cache::get_global_cache(device);
 
     uint_ vpt = parameters->get(cache_key, "vpt", 8);
-    uint_ tpb = parameters->get(cache_key, "tpb", 128);
+    uint_ tpb = parameters->get(cache_key, "tpb", 8);
 
     // reduce program compiler flags
     std::stringstream options;

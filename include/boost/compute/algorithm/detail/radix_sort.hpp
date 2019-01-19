@@ -282,9 +282,9 @@ inline void radix_sort_impl(const buffer_iterator<T> first,
         detail::parameter_cache::get_global_cache(device);
 
     // sort parameters
-    const uint_ k = parameters->get(cache_key, "k", 4);
+    const uint_ k = parameters->get(cache_key, "k", 2);
     const uint_ k2 = 1 << k;
-    const uint_ block_size = parameters->get(cache_key, "tpb", 128);
+    const uint_ block_size = parameters->get(cache_key, "tpb", 8);
 
     // sort program compiler options
     std::stringstream options;

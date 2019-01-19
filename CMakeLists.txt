@@ -25,7 +25,7 @@ find_package(Boost 1.54 REQUIRED)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 # optional support for c++11
-option(BOOST_COMPUTE_USE_CPP11 "Use C++11 features" OFF)
+option(BOOST_COMPUTE_USE_CPP11 "Use C++11 features" ON)
 if(NOT MSVC)
   if(${BOOST_COMPUTE_USE_CPP11})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -39,7 +39,7 @@ if(${BOOST_COMPUTE_USE_OFFLINE_CACHE})
 endif()
 
 # thread-safety options
-option(BOOST_COMPUTE_THREAD_SAFE "Compile with BOOST_COMPUTE_THREAD_SAFE defined" OFF)
+option(BOOST_COMPUTE_THREAD_SAFE "Compile with BOOST_COMPUTE_THREAD_SAFE defined" ON)
 if(${BOOST_COMPUTE_THREAD_SAFE})
   add_definitions(-DBOOST_COMPUTE_THREAD_SAFE)
   if(${BOOST_COMPUTE_USE_CPP11})
@@ -96,18 +96,18 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4838") # Warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
 endif()
 
-option(BOOST_COMPUTE_BUILD_TESTS "Build the Boost.Compute tests" OFF)
+option(BOOST_COMPUTE_BUILD_TESTS "Build the Boost.Compute tests" ON)
 if(${BOOST_COMPUTE_BUILD_TESTS})
   enable_testing()
   add_subdirectory(test)
 endif()
 
-option(BOOST_COMPUTE_BUILD_BENCHMARKS "Build the Boost.Compute benchmarks" OFF)
+option(BOOST_COMPUTE_BUILD_BENCHMARKS "Build the Boost.Compute benchmarks" ON)
 if(${BOOST_COMPUTE_BUILD_BENCHMARKS})
   add_subdirectory(perf)
 endif()
 
-option(BOOST_COMPUTE_BUILD_EXAMPLES "Build the Boost.Compute examples" OFF)
+option(BOOST_COMPUTE_BUILD_EXAMPLES "Build the Boost.Compute examples" ON)
 if(${BOOST_COMPUTE_BUILD_EXAMPLES})
   add_subdirectory(example)
 endif()

@@ -41,7 +41,7 @@ inline void inplace_reduce(Iterator first,
 
     const context &context = queue.get_context();
 
-    size_t block_size = 64;
+    size_t block_size = 8;
     size_t values_per_thread = 8;
     size_t block_count = input_size / (block_size * values_per_thread);
     if(block_count * block_size * values_per_thread != input_size)

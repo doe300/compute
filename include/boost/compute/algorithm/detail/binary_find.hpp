@@ -78,8 +78,8 @@ inline InputIterator binary_find(InputIterator first,
 
     const std::string cache_key = "__boost_binary_find";
 
-    size_t find_if_limit = 128;
-    size_t threads = parameters->get(cache_key, "tpb", 128);
+    size_t find_if_limit = 8;
+    size_t threads = parameters->get(cache_key, "tpb", 8);
     size_t count = iterator_range_size(first, last);
 
     InputIterator search_first = first;
@@ -96,17 +96,17 @@ inline InputIterator binary_find(InputIterator first,
     kernel.set_arg(binary_find_kernel.m_index_arg, index.get_buffer());
 
     while(count > find_if_limit) {
-        index.write(static_cast<uint_>(count), queue);
+        index.write(static_cast<uint_>(search_last.get_index()), queue);
 
         // set block and run binary_find kernel
         uint_ block = static_cast<uint_>((count - 1)/(threads - 1));
         kernel.set_arg(binary_find_kernel.m_block_arg, block);
-        queue.enqueue_1d_range_kernel(kernel, 0, threads, 0);
+        queue.enqueue_1d_range_kernel(kernel, search_first.get_index(), threads, 0);
 
-        size_t i = index.read(queue);
+        size_t i = index.read(queue) - search_first.get_index();
 
         if(i == count) {
-            search_first = search_last - ((count - 1)%(threads - 1));
+            search_first = search_last - count;
             break;
         } else {
             search_last = search_first + i;

@@ -52,12 +52,12 @@ inline size_t pick_bitonic_block_sort_block_size(size_t proposed_wg,
     if(n < 2)   { return 1; }
     else if(n < 4)   { return 2; }
     else if(n < 8)   { return 4; }
-    else if(n < 16)  { return 8; }
+    /* else if(n < 16)  { return 8; }
     else if(n < 32)  { return 16; }
     else if(n < 64)  { return 32; }
     else if(n < 128) { return 64; }
-    else if(n < 256) { return 128; }
-    else             { return 256; }
+    else if(n < 256) { return 128; } */
+    else             { return 8; }
 }
 
 
@@ -273,13 +273,14 @@ inline size_t bitonic_block_sort(KeyIterator keys_first,
     ::boost::compute::kernel kernel = k.compile(context);
 
     const size_t work_group_size =
-        pick_bitonic_block_sort_block_size<key_type, uchar_>(
+        std::min(pick_bitonic_block_sort_block_size<key_type, uchar_>(
             kernel.get_work_group_info<size_t>(
                 device, CL_KERNEL_WORK_GROUP_SIZE
             ),
             device.get_info<size_t>(CL_DEVICE_LOCAL_MEM_SIZE),
             sort_by_key
-        );
+        ), boost::compute::system::default_device().max_work_group_size()
+    );
 
     const size_t global_size =
         work_group_size * static_cast<size_t>(

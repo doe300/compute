@@ -72,7 +72,7 @@ inline event copy_on_device_gpu(InputIterator first,
         "__boost_copy_kernel_" + boost::lexical_cast<std::string>(sizeof(input_type));
 
     uint_ vpt = parameters->get(cache_key, "vpt", 4);
-    uint_ tpb = parameters->get(cache_key, "tpb", 128);
+    uint_ tpb = parameters->get(cache_key, "tpb", 8);
 
     meta_kernel k("copy");
     k <<
