@@ -277,7 +277,7 @@ inline size_t bitonic_block_sort(KeyIterator keys_first,
             kernel.get_work_group_info<size_t>(
                 device, CL_KERNEL_WORK_GROUP_SIZE
             ),
-            device.get_info<size_t>(CL_DEVICE_LOCAL_MEM_SIZE),
+            device.get_info<cl_ulong>(CL_DEVICE_LOCAL_MEM_SIZE),
             sort_by_key
         ), boost::compute::system::default_device().max_work_group_size()
     );

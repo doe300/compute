@@ -47,7 +47,7 @@ bool find_extrema_with_reduce_requirements_met(InputIterator first,
 
     const size_t max_work_group_size = device.get_info<CL_DEVICE_MAX_WORK_GROUP_SIZE>();
     // local memory size in bytes (per compute unit)
-    const size_t local_mem_size = device.get_info<CL_DEVICE_LOCAL_MEM_SIZE>();
+    const cl_ulong local_mem_size = device.get_info<CL_DEVICE_LOCAL_MEM_SIZE>();
 
     std::string cache_key = std::string("__boost_find_extrema_reduce_")
         + type_name<input_type>();

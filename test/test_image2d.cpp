@@ -35,6 +35,11 @@ BOOST_AUTO_TEST_CASE(create_image_doctest)
 // create 8-bit RGBA image format
 boost::compute::image_format rgba8(CL_RGBA, CL_UNSIGNED_INT8);
 
+    if(!compute::image2d::is_supported_format(rgba8, context)){
+        std::cerr << "skipping create_image_doctest test, image format not supported" << std::endl;
+        return;
+    }
+
 // create 640x480 image object
 boost::compute::image2d img(context, 640, 480, rgba8);
 //! [create_image]

@@ -519,7 +519,7 @@ bool reduce_by_key_with_scan_requirements_met(InputKeyIterator keys_first,
     }
 
     // local memory size in bytes (per compute unit)
-    const size_t local_mem_size = device.get_info<CL_DEVICE_LOCAL_MEM_SIZE>();
+    const cl_ulong local_mem_size = device.get_info<CL_DEVICE_LOCAL_MEM_SIZE>();
 
     // preferred work group size
     size_t work_group_size = get_work_group_size<key_type, value_type>(device);

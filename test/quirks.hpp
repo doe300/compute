@@ -84,7 +84,7 @@ inline bool supports_image_samplers(const boost::compute::device &device)
         return false;
     }
 
-    return true;
+    return false;
 }
 
 // returns true if the device has remquo() built-in OpenCL function implementation
